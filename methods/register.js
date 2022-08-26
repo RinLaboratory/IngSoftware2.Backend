@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const express = require("express");
-
+require('dotenv').config()
 require("../db/config");
 const usuarios = require("../db/usuarios")
 
@@ -8,7 +8,7 @@ const register = new express.Router();
 
 register.post("/register", async (req,res) =>{
     const userData = req.body;
-    const saltRounds = 10;
+    const saltRounds = process.env.HOW_MANY_HASHES;
     
     bcrypt.hash(userData.password, saltRounds, async function(err, hash) {
         let hashedUserPassword = {
