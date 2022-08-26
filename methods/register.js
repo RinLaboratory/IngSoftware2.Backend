@@ -2,24 +2,49 @@ const bcrypt = require('bcrypt');
 const express = require("express");
 require('dotenv').config()
 require("../db/config");
-const usuarios = require("../db/usuarios")
+const Usuario = require("../db/usuarios")
+const JsonWebTokenSign = require("../WebToken/jwt");
+
 
 const register = new express.Router();
 
-register.post("/register", async (req,res) =>{
-    const userData = req.body;
-    const saltRounds = process.env.HOW_MANY_HASHES;
-    
-    bcrypt.hash(userData.password, saltRounds, async function(err, hash) {
-        let hashedUserPassword = {
-            name: userData.name,
-            email: userData.email,
-            password: hash
+register.post("/auth/new", async (req,res) =>{
+    const {email, password} = req.body;
+
+    try {
+        let usuario = await Usuario.findOne({email});
+
+        if (usuario) {
+            return res.status(400).json({
+                status: false,
+                msg: 'El usuario ya existe'
+            })
         }
-        let user = new usuarios(hashedUserPassword);
-        let result = await user.save();
-        res.send(result);
-    });
+
+        usuario = new Usuario(req.body);
+
+        //Encriptar contraseña
+        const salt = bcrypt.genSaltSync();
+        usuario.password = bcrypt.hashSync(password, salt);
+
+        await usuario.save();
+
+        const token = await JsonWebTokenSign(usuario._id, usuario.name);
+
+        res.status(201).json({
+            status: true,
+            uid: usuario._id,
+            name: usuario.name,
+            token
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status: false,
+            msg: 'Por favor hable con el administrador'
+        });
+    } 
 })
 
 module.exports = register;
