@@ -20,11 +20,12 @@ login.post("/auth", async (req,res) =>{
                             status: validation,
                             token: token
                         })
+                    } else {
+                        return res.status(400).json({
+                            status: validation,
+                            msg: "Incorrect password"
+                        })
                     }
-                    return res.status(400).json({
-                        status: validation,
-                        msg: "Incorrect password"
-                    })
                 } else {
                     console.warn(err);
                     return res.status(500).json({
@@ -34,8 +35,10 @@ login.post("/auth", async (req,res) =>{
                 }
             })
         })
-        
-        //res.send(users);
+        return res.status(400).json({
+            status: false,
+            msg: "Incorrect password"
+        })
     }).clone().catch(function(err){ console.log(err)});
     
 })
