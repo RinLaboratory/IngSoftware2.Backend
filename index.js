@@ -12,6 +12,9 @@ app.use(require("./methods/register"));
 // Consulta para obtener los usuarios
 app.use(require("./methods/getuser"));
 
+// consulta para borrar usuarios
+app.use(require("./methods/deleteuser"));
+
 // consulta para loguearse
 app.use(require("./methods/login"));
 
