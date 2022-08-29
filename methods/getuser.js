@@ -24,7 +24,6 @@ getUser.post("/getusers", async (req,res) =>{
     if (data.search == "default") {
         users = await usuarios.find({});
     }
-    console.log(users)
     return res.status(200).json({
         users: users
     });

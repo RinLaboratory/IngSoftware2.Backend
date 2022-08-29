@@ -16,7 +16,6 @@ getUser.post("/deleteuser", async (req,res) =>{
             });
         } else {
             confirmation = await usuarios.deleteOne({_id: data._id});
-            console.log(confirmation)
             return res.status(200).json({
                 status: true
             });
