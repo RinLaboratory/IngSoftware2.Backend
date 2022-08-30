@@ -17,6 +17,7 @@ app.use(require("./methods/deleteuser"));
 
 // consulta para loguearse
 app.use(require("./methods/login"));
+app.use(require("./methods/renewJWT"));
 
 console.log("app is online at port "+process.env.SERVER_PORT)
 app.listen(process.env.SERVER_PORT);
