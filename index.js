@@ -2,7 +2,12 @@ const express = require("express");
 const cors = require("cors");
 require('dotenv').config()
 
+const{ObjetoId} = require("mongoose")
 const app = express();
+const Document = require('./db/documentos')
+
+
+
 app.use(express.json());
 app.use(cors());
 
@@ -12,6 +17,17 @@ app.use(require("./methods/register"));
 // Consulta para obtener los usuarios
 app.use(require("./methods/getuser"));
 
+//borrar documentos
+app.use(require("./methods/deletedocument"))
+
+//para obtener los documentos necesarios
+app.use(require("./methods/getdocument"))
+
+//para subir nuevos documentos
+app.use(require("./methods/postdocuento"))
+
+//para actualizar documetos 
+app.use(require("./methods/putdocument"))
 // consulta para borrar usuarios
 app.use(require("./methods/deleteuser"));
 
