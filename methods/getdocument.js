@@ -10,10 +10,11 @@ getdocument.post("/getdocument", async (req,res) =>{
     const data = req.body
     const texto = req.body.texto
     console.log(texto)
-    let doc = await documentos.find({name: new RegExp('^'+texto+'$', "i")})
- 
-    var documents = "";
+    let nameRegex = new RegExp(texto);
+    let doc = await documentos.find({name: {$regex: nameRegex, $options: 'i'}})
+    console.log(doc)
 
+    var documents = "";
     
         if (data.search == "NOMBRE") {
             documents = await documentos.find({name: data.buscar});
@@ -36,7 +37,8 @@ getdocument.post("/getdocument", async (req,res) =>{
     
     
     return res.status(200).json({
-        documents: documents
+        documents: documents,
+        doc: doc
     });
     
 })
