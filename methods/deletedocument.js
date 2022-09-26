@@ -1,23 +1,24 @@
 const express = require("express");
 
 require("../db/config");
-const usuarios = require("../db/usuarios")
+const documento = require("../db/documentos")
 
-const deletdocument = new express.Router();
+const BorrorarDocumento = new express.Router();
 
-deletdocument.post("/deletdocument", async (req,res) =>{
+BorrorarDocumento.post("/deletdocument", async (req,res) =>{
     const data = req.body;
     var confirmation = ""
     try {
         if (data.rol == "*")
         {
-            confirmation = await usuarios.deleteOne({_id: data._id});
+            onfirmation = await documento.deleteOne({_id: data._id});
             return res.status(200).json({
                 status: true
             });
         } else {
+            confirmation = await documento.deleteOne({_id: data._id});
             return res.status(200).json({
-                status: false
+                status: true
             })
             
         }
@@ -30,4 +31,4 @@ deletdocument.post("/deletdocument", async (req,res) =>{
     
 })
 
-module.exports = deletdocument;
+module.exports = BorrorarDocumento;
