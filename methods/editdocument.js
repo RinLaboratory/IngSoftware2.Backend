@@ -1,6 +1,5 @@
 const express = require("express");
-const { get } = require("mongoose");
-const {ObjectId} = require("mongoose")
+
 require("../db/config");
 const documentos = require("../db/documentos")
 
