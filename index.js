@@ -27,7 +27,8 @@ app.use(require("./methods/getdocument"))
 app.use(require("./methods/adddocument"))
 
 //para actualizar documetos 
-app.use(require("./methods/putdocument"))
+app.use(require("./methods/editdocument"))
+
 // consulta para borrar usuarios
 app.use(require("./methods/deleteuser"));
 
