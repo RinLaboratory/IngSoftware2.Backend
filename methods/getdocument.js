@@ -22,8 +22,8 @@ getdocument.post("/getdocument", async (req,res) =>{
         if (data.search == "APELLIDO") {
             documents = await documentos.find({lastname: data.buscar});
         }
-        if (data.search == "CORREO") {
-            documents = await documentos.find({email: data.buscar});
+        if (data.search == "fecha") {
+            documents = await documentos.find({fecha: data.buscar});
         }
         if (data.search == "ID") {
             documents = await documentos.find({_id: data.buscar});
