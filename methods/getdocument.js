@@ -12,6 +12,7 @@ getdocument.post("/getdocument", async (req,res) =>{
     console.log(texto)
     let nameRegex = new RegExp(texto);
     let doc = await documentos.find({name: {$regex: nameRegex, $options: 'i'}})
+    let Bautismo = await documentos.find({Bautismo: {$regex: nameRegex}})
     console.log(doc)
 
     var documents = "";
@@ -38,7 +39,8 @@ getdocument.post("/getdocument", async (req,res) =>{
     
     return res.status(200).json({
         documents: documents,
-        doc: doc
+        doc: doc,
+        Bautismo: Bautismo
     });
     
 })
