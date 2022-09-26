@@ -24,7 +24,7 @@ app.use(require("./methods/deletedocument"))
 app.use(require("./methods/getdocument"))
 
 //para subir nuevos documentos
-app.use(require("./methods/postdocuento"))
+app.use(require("./methods/adddocument"))
 
 //para actualizar documetos 
 app.use(require("./methods/putdocument"))
