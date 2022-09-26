@@ -11,7 +11,7 @@ BorrorarDocumento.post("/deletdocument", async (req,res) =>{
     try {
         if (data.rol == "*")
         {
-            onfirmation = await documento.deleteOne({_id: data._id});
+            confirmation = await documento.deleteOne({_id: data._id});
             return res.status(200).json({
                 status: true
             });
