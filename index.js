@@ -23,6 +23,9 @@ app.use(require("./methods/deletedocument"))
 //para obtener los documentos necesarios
 app.use(require("./methods/getdocument"))
 
+//para obtener los documentos relacionados
+app.use(require("./methods/getadjacentdocuments"))
+
 //para subir nuevos documentos
 app.use(require("./methods/adddocument"))
 

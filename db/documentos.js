@@ -1,41 +1,30 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    n_id: String,
-    rut: String,
-    name:String,
-    lastname:String,
-    father: String,
-    mother: String,
-    birth: String,
+    n_id: String, 
+    rut: String, 
+    name:String, 
+    lastname:String, 
+    birth: String, 
+    birthplace: String, 
     email:String,
+    Obs: String, 
+    inscr_Date: String,
+    address:String,
     phone:String,
-    Obs: String,
-    inscr_Date:String,
+    Referencia:String, 
+    parent_Data:{
+        p_id: String,
+    },
     Bautismo:{
-        padrino: String,
-        madrina: String,
-        fecha: String,
-        padre: String,
-        lugar: String,
-        preparacion: String
+        b_id: String,
     },
     Confirmacion:{
-        padrino: String,
-        madrina: String,
-        fecha: String,
-        padre: String,
-        lugar: String
+        c_id: String,
     },
-    Matrimonio: {
-        padrino: String,
-        madrina: String,
-        pareja: String,
-        fecha: String,
-        padre: String,
-        lugar: String,
+    Matrimonio:{
+        m_id: String,
     },
-    Referencia:String,
 })
 
 module.exports = mongoose.model("documentos", userSchema);
