@@ -3,6 +3,7 @@ const express = require("express");
 require('dotenv').config()
 require("../db/config");
 const usuarios = require("../db/usuarios")
+const password = require('../db/password');
 
 const register = new express.Router();
 
@@ -11,11 +12,11 @@ register.post("/register", async (req,res) =>{
     const saltRounds = parseInt(process.env.HOW_MANY_HASHES);
     
     // el correo no puede tener espacios entremedio, así que se elimininan
-    const email = userData.email;
+    const email = userData.userData.email;
     var checkEmail = email.split(' ').join('');
     var users = "";
     
-    if (checkEmail.length !== 0 && userData.password.length != 0)
+    if (checkEmail.length !== 0 && userData.password.password.length != 0)
     {
         users = await usuarios.find({email: checkEmail});
         if (users.length > 0) {
@@ -24,16 +25,22 @@ register.post("/register", async (req,res) =>{
                 msg: "email already exists"
             });
         } else {
-            bcrypt.hash(userData.password, saltRounds, async function(err, hash) {
-            
+            bcrypt.hash(userData.password.password, saltRounds, async function(err, hash) {
+                
+                let pass = new password({password: hash})
+                await pass.save();
+
+                console.log(pass)
+
                 let hashedUserPassword = {
-                    name: userData.name,
-                    lastname: userData.lastname,
-                    rol: userData.rol,
-                    phone: userData.phone,
+                    name: userData.userData.name,
+                    lastname: userData.userData.lastname,
+                    rol: userData.userData.rol,
+                    phone: userData.userData.phone,
                     email: checkEmail,
-                    password: hash
+                    password_id: pass._id.toString()
                 }
+
                 let user = new usuarios(hashedUserPassword);
                 await user.save();
                 return res.status(200).json({

@@ -3,6 +3,7 @@ const express = require("express");
 const JsonWebTokenSign = require("../WebToken/jwt");
 require("../db/config");
 const usuarios = require("../db/usuarios")
+const password = require("../db/password")
 
 const login = new express.Router();
 
@@ -33,8 +34,10 @@ login.post("/auth", async (req,res) =>{
         // por cada usuario con el mismo correo se navega en un elemento
         users.forEach( async (element) => {
 
+            const pass = await password.findById(element.password_id);
+
             // comparación de la contraseña almacenada en la db y la entregada por el usuario (await si tiene efecto en esta funcion aunque diga que no)
-            validation = await bcrypt.compare(userData.password, element.password);
+            validation = await bcrypt.compare(userData.password, pass.password);
 
             if(validation) {
                 try {

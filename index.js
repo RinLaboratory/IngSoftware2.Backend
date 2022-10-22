@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 require('dotenv').config()
 
-const{ObjetoId} = require("mongoose")
 const app = express();
 const Document = require('./db/documentos')
 
@@ -16,6 +15,9 @@ app.use(require("./methods/register"));
 
 // Consulta para obtener los usuarios
 app.use(require("./methods/getuser"));
+
+// para editar usuarios
+app.use(require("./methods/edituser"))
 
 //borrar documentos
 app.use(require("./methods/deletedocument"))
