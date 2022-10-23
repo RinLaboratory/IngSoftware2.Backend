@@ -61,8 +61,13 @@ editdocument.post('/editdocument', async (req, res) => {
         }
       }
 
+      let b_nombre = data.Documento.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      let b_apellido = data.Documento.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
       let datos = {
         ...data.Documento,
+        nameE: b_nombre,
+        lastnameE: b_apellido,
         parent_Data:{
             p_id: (data.Documento.parent_Data.p_id != "" ? data.Documento.parent_Data.p_id:(p_parent == "" ? "":p_parent._id.toString()))
         },

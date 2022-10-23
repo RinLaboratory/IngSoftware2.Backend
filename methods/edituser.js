@@ -45,9 +45,14 @@ edituser.post("/edituser", async (req,res) =>{
 
             const user = await usuarios.findById(userData.userData._id);
 
+            let b_nombre = userData.userData.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            let b_apellido = userData.userData.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
             const datos = {
                 name: userData.userData.name,
+                nameE: b_nombre,
                 lastname: userData.userData.lastname,
+                lastnameE: b_apellido,
                 email: userData.userData.email,
                 rol: userData.userData.rol,
                 password_id: userData.userData.password_id,

@@ -7,21 +7,25 @@ const getUser = new express.Router();
 
 getUser.post("/getusers", async (req,res) =>{
     const data = req.body;
+    let nameRegex = new RegExp(data.buscar);
+    console.log(nameRegex)
     var users = "";
-
-    if (data.search == "NOMBRE") {
-        users = await usuarios.find({name: data.buscar});
-    }
-    if (data.search == "APELLIDO") {
-        users = await usuarios.find({lastname: data.buscar});
-    }
-    if (data.search == "CORREO") {
-        users = await usuarios.find({email: data.buscar});
-    }
-    if (data.search == "ID") {
-        users = await usuarios.find({_id: data.buscar});
-    }
-    if (data.search == "default") {
+    
+    if(data.buscar.length != 0)
+    {
+        if (data.search == "NOMBRE") {
+            users = await usuarios.find({nameE: {$regex: nameRegex, $options: 'i'}});
+        }
+        if (data.search == "APELLIDO") {
+            users = await usuarios.find({lastnameE: {$regex: nameRegex, $options: 'i'}});
+        }
+        if (data.search == "CORREO") {
+            users = await usuarios.find({email: {$regex: nameRegex, $options: 'i'}});
+        }
+        if (data.search == "ID") {
+            users = await usuarios.find({_id: {$regex: nameRegex, $options: 'i'}});
+        }
+    } else {
         users = await usuarios.find({});
     }
     return res.status(200).json({

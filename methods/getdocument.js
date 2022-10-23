@@ -13,10 +13,10 @@ getdocument.post("/getdocument", async (req,res) =>{
     const varDocumentoMatrimonio = []
     const varDocumentoConfirmacion = []
     let nameRegex = new RegExp(texto);
-    let doc = await documentos.find({name: {$regex: nameRegex, $options: 'i'}})
-    let Bautismo = await documentos.find({name: {$regex: nameRegex, $options: 'i'}})
-    let Confirmacion = await documentos.find({name: {$regex: nameRegex, $options: 'i'}})
-    let Matrimonio = await documentos.find({name: {$regex: nameRegex, $options: 'i'}})
+    let doc = await documentos.find({nameE: {$regex: nameRegex, $options: 'i'}})
+    let Bautismo = await documentos.find({nameE: {$regex: nameRegex, $options: 'i'}})
+    let Confirmacion = await documentos.find({nameE: {$regex: nameRegex, $options: 'i'}})
+    let Matrimonio = await documentos.find({nameE: {$regex: nameRegex, $options: 'i'}})
     for (var x = 0; x < Bautismo.length; x++ ){
         if(Bautismo[x].Bautismo.fecha != ""){
             varDocumentoBautismo.push(Bautismo[x]) 
@@ -38,10 +38,10 @@ getdocument.post("/getdocument", async (req,res) =>{
     var documents = "";
     
         if (data.search == "NOMBRE") {
-            documents = await documentos.find({name: data.buscar});
+            documents = await documentos.find({nameE: data.buscar});
         }
         if (data.search == "APELLIDO") {
-            documents = await documentos.find({lastname: data.buscar});
+            documents = await documentos.find({lastnameE: data.buscar});
         }
         if (data.search == "fecha") {
             documents = await documentos.find({fecha: data.buscar});

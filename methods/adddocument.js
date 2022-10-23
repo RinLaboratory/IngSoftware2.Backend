@@ -15,7 +15,7 @@ adddocument.post("/adddocument", async (req,res) =>{
 
     if (data.Documento.name.length !== 0 && data.Documento.lastname.length !== 0)
     {
-        docs = await documentos.find({name: data.Documento.name, lastname: data.Documento.lastname, rut: data.Documento.rut});
+        docs = await documentos.find({nameE: data.Documento.nameE, lastnameE: data.Documento.lastnameE, rut: data.Documento.rut});
         if (docs.length > 0)
         {
             return res.status(200).json({
@@ -44,8 +44,15 @@ adddocument.post("/adddocument", async (req,res) =>{
                 d_matrimonio = new matrimonio(data.Matrimonio)
                 await d_matrimonio.save() 
             }
+
+            let b_nombre = data.Documento.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            let b_apellido = data.Documento.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
+
             let datos = {
                 ...data.Documento,
+                nameE: b_nombre,
+                lastnameE: b_apellido,
                 parent_Data:{
                     p_id: (p_parent == "" ? "":p_parent._id.toString())
                 },

@@ -30,11 +30,14 @@ register.post("/register", async (req,res) =>{
                 let pass = new password({password: hash})
                 await pass.save();
 
-                console.log(pass)
+                let b_nombre = userData.userData.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                let b_apellido = userData.userData.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 
                 let hashedUserPassword = {
                     name: userData.userData.name,
+                    nameE: b_nombre,
                     lastname: userData.userData.lastname,
+                    lastnameE: b_apellido,
                     rol: userData.userData.rol,
                     phone: userData.userData.phone,
                     email: checkEmail,
