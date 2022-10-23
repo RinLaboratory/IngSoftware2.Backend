@@ -31,6 +31,9 @@ app.use(require("./methods/getadjacentdocuments"))
 //para subir nuevos documentos
 app.use(require("./methods/adddocument"))
 
+//para filtrar documentos
+app.use(require("./methods/filterdocument"))
+
 //para actualizar documetos 
 app.use(require("./methods/editdocument"))
 

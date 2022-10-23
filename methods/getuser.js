@@ -9,7 +9,6 @@ getUser.post("/getusers", async (req,res) =>{
     const data = req.body;
     const texto = data.buscar.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     let nameRegex = new RegExp(texto);
-    console.log(nameRegex)
     var users = "";
 
     if(data.buscar.length != 0 && data.search != "")

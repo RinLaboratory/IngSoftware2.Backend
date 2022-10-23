@@ -51,6 +51,7 @@ adddocument.post("/adddocument", async (req,res) =>{
 
             let datos = {
                 ...data.Documento,
+                inscr_Date: data.Bautismo.b_date,
                 nameE: b_nombre,
                 lastnameE: b_apellido,
                 parent_Data:{
