@@ -8,7 +8,7 @@ filterdocument.post("/filterdocument", async (req,res) =>{
     const newList = req.body.docs
     const Documentos = []
 
-    if ((displayButton.b1 != displayButton.b2 && displayButton.b1 != displayButton.b3) || (displayButton.b2 != displayButton.b1 && displayButton.b2 != displayButton.b3) || (displayButton.b3 != displayButton.b1 && displayButton.b3 != displayButton.b2)){
+    if ((displayButton.b1 != displayButton.b2 && displayButton.b1 != displayButton.b3 && displayButton.b2 == false ) || (displayButton.b2 != displayButton.b1 && displayButton.b2 != displayButton.b3 && displayButton.b1 == false) || (displayButton.b3 != displayButton.b1 && displayButton.b3 != displayButton.b2 && displayButton.b1 == false)){
         for ( let x = 0 ; x < newList.length ; x++)
         {
             // Bautismo
@@ -33,15 +33,16 @@ filterdocument.post("/filterdocument", async (req,res) =>{
             // Bautismo con confirmacion
             if((displayButton.b1 == displayButton.b2 && displayButton.b1 != displayButton.b3) && (newList[x].Bautismo.b_id != "" && newList[x].Confirmacion.c_id != "")){
                 Documentos.push(newList[x])
+                
             }
 
             // Bautismo con matrimonio
-            else if((displayButton.b1 != displayButton.b2 && displayButton.b1 == displayButton.b3) && (newList[x].Bautismo.b_id != "" && newList[x].Matrimonio.c_id != "")){
+            else if((displayButton.b1 != displayButton.b2 && displayButton.b1 == displayButton.b3) && (newList[x].Bautismo.b_id != "" && newList[x].Matrimonio.m_id != "")){
                 Documentos.push(newList[x])
             }
 
             // Confirmacion con Matrimonio
-            else if((displayButton.b1 != displayButton.b3 && displayButton.b2 == displayButton.b3) && (newList[x].Confirmacion.b_id != "" && newList[x].Matrimonio.c_id != "")){
+            else if((displayButton.b1 != displayButton.b3 && displayButton.b2 == displayButton.b3) && (newList[x].Confirmacion.b_id != "" && newList[x].Matrimonio.m_id != "")){
                 Documentos.push(newList[x])
             }
         }
