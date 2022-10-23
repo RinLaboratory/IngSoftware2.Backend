@@ -8,10 +8,11 @@ const getdocument = new express.Router();
 
 getdocument.post("/getdocument", async (req,res) =>{
     const data = req.body
-    const texto = req.body.texto
+    const texto = req.body.texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     const varDocumentoBautismo = []
     const varDocumentoMatrimonio = []
     const varDocumentoConfirmacion = []
+
     let nameRegex = new RegExp(texto);
     let doc = await documentos.find({nameE: {$regex: nameRegex, $options: 'i'}})
     let Bautismo = await documentos.find({nameE: {$regex: nameRegex, $options: 'i'}})
