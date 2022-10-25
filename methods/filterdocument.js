@@ -56,10 +56,18 @@ filterdocument.post("/filterdocument", async (req,res) =>{
             }
         }
     }
+
+    if(Documentos.length != 0 || displayButton.b1 || displayButton.b2 || displayButton.b3){
+        return res.status(200).json({
+            docs: Documentos,
+        });
+    } else {
+        return res.status(200).json({
+            docs: newList,
+        });
+    }
     
-    return res.status(200).json({
-        docs: Documentos,
-    });
+    
     
 })
 
