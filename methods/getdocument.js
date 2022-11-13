@@ -12,6 +12,7 @@ getdocument.post("/getdocument", async (req,res) =>{
 
     let nameRegex = new RegExp(texto);
     var documents = "";
+    try {
     
         if (data.selectValue == "NOMBRE") {
             documents = await documentos.find({nameE: nameRegex});
@@ -28,14 +29,19 @@ getdocument.post("/getdocument", async (req,res) =>{
         if (data.selectValue == "default") {
             documents = await documentos.find({});
         }
-        if (data.selectValue == "exportPackage") {
+        if (data.selectValue == "exportPackage" && texto !== "undefined") {
             documents = await documentos.find({_id: texto});
         }
 
     return res.status(200).json({
         documents: documents,
     });
-    
+    }
+    catch (e) {
+        return res.status(200).json({
+            documents: [],
+        });
+    }
 })
 
 module.exports = getdocument;
