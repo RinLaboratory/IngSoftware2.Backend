@@ -28,6 +28,9 @@ getdocument.post("/getdocument", async (req,res) =>{
         if (data.selectValue == "default") {
             documents = await documentos.find({});
         }
+        if (data.selectValue == "exportPackage") {
+            documents = await documentos.find({_id: texto});
+        }
 
     return res.status(200).json({
         documents: documents,
