@@ -41,6 +41,9 @@ app.use(require("./methods/editdocument"))
 // consulta para borrar usuarios
 app.use(require("./methods/deleteuser"));
 
+// consulta notificaciones
+app.use(require("./methods/notifications"));
+
 // consulta para loguearse
 app.use(require("./methods/login"));
 app.use(require("./methods/renewJWT"));

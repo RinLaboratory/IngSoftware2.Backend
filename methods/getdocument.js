@@ -6,12 +6,29 @@ const documentos = require("../db/documentos")
 
 const getdocument = new express.Router();
 
+const jwt = require('jsonwebtoken');
+const usuarios = require("../db/usuarios")
+
 getdocument.post("/getdocument", async (req,res) =>{
     const data = req.body
     const texto = req.body.search.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 
     let nameRegex = new RegExp(texto);
     var documents = "";
+
+    const token = req.header('x-token');
+    const {uuid} = jwt.verify(
+        token,
+        process.env.SECRET_JWT_SEED
+    );
+    const usuario = await usuarios.findById(uuid)
+
+    if (usuario.rol == "NINGUNO"){
+        return res.status(200).json({
+            documents: [],
+        });
+    }
+
     try {
     
         if (data.selectValue == "NOMBRE") {

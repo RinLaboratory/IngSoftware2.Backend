@@ -9,9 +9,23 @@ const matrimonio = require("../db/matrimonio")
 
 const BorrarDocumento = new express.Router();
 
+const jwt = require('jsonwebtoken');
+const usuarios = require("../db/usuarios")
+
 BorrarDocumento.post("/deletedocument", async (req,res) =>{
     const data = req.body;
-    console.log(data)
+    const token = req.header('x-token');
+    const {uuid} = jwt.verify(
+        token,
+        process.env.SECRET_JWT_SEED
+    );
+    const usuario = await usuarios.findById(uuid)
+
+    if (usuario.rol == "NINGUNO" || usuario.rol == "FELIGRES"){
+        return res.status(200).json({
+            status: false
+        });
+    }
     try {
         if(data.parent_Data.p_id != ""){
             await parents.deleteOne({_id: data.parent_Data.p_id});

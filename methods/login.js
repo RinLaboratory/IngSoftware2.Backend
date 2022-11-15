@@ -41,7 +41,7 @@ login.post("/auth", async (req,res) =>{
 
             if(validation) {
                 try {
-                    const token = await JsonWebTokenSign(element._id, element.name);
+                    const token = await JsonWebTokenSign(element._id.toString(), element.name);
 
                     // console.log(token)
                     // el usuario está autenticado

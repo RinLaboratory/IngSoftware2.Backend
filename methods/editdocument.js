@@ -9,12 +9,29 @@ const matrimonio = require("../db/matrimonio")
 
 const editdocument = new express.Router();
 
+const usuarios = require("../db/usuarios")
+const jwt = require('jsonwebtoken');
+
 editdocument.post('/editdocument', async (req, res) => {
     const data = req.body
     let p_parent = "" ;
     let d_bautismo = "";
     let d_confirmacion = "";
     let d_matrimonio = "";
+
+    const token = req.header('x-token');
+    const {uuid} = jwt.verify(
+        token,
+        process.env.SECRET_JWT_SEED
+    );
+    const usuario = await usuarios.findById(uuid)
+
+    if (usuario.rol == "NINGUNO"){
+        return res.status(200).json({
+            status: false,
+            msg: "no perms"
+        });
+    }
 
     const findDocument = await documentos.findById(data._id)
 

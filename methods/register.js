@@ -7,10 +7,27 @@ const password = require('../db/password');
 
 const register = new express.Router();
 
+const jwt = require('jsonwebtoken');
+
 register.post("/register", async (req,res) =>{
     const userData = req.body;
     const saltRounds = parseInt(process.env.HOW_MANY_HASHES);
     
+    const token = req.header('x-token');
+    const {uuid} = jwt.verify(
+        token,
+        process.env.SECRET_JWT_SEED
+    );
+    const usuario = await usuarios.findById(uuid)
+    
+    if (usuario.rol == "NINGUNO" || usuario.rol == "FELIGRES" ){
+        return res.status(200).json({
+            status: false,
+            msg: "no perms"
+        });
+    }
+
+
     // el correo no puede tener espacios entremedio, así que se elimininan
     const email = userData.userData.email;
     var checkEmail = email.split(' ').join('');
@@ -32,6 +49,13 @@ register.post("/register", async (req,res) =>{
 
                 let b_nombre = userData.userData.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                 let b_apellido = userData.userData.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
+                if (userData.userData.rol == "*"){
+                    return res.status(200).json({
+                        status: false,
+                        msg: "cant give that rol"
+                    });
+                }
 
                 let hashedUserPassword = {
                     name: userData.userData.name,

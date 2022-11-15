@@ -7,6 +7,8 @@ const password = require('../db/password');
 
 const edituser = new express.Router();
 
+const jwt = require('jsonwebtoken');
+
 const notFound = (res) => {
     // se crea una funcion ya que de muchas opciones solo pueden devolver 2 tipos de resultados, éste siendo para todos los intentos erroneos
     return res.status(400).json({
@@ -18,14 +20,25 @@ const notFound = (res) => {
 edituser.post("/edituser", async (req,res) =>{
     const userData = req.body;
     const saltRounds = parseInt(process.env.HOW_MANY_HASHES);
-    
 
     // el correo no puede tener espacios entremedio, así que se elimininan
     const email = userData.userData.email;
     var checkEmail = email.split(' ').join('');
     var users = "";
 
-    console.log(userData)
+    const token = req.header('x-token');
+    const {uuid} = jwt.verify(
+        token,
+        process.env.SECRET_JWT_SEED
+    );
+    const usuario = await usuarios.findById(uuid)
+
+    if (usuario.rol == "NINGUNO" || usuario.rol == "FELIGRES" ){
+        return res.status(200).json({
+            status: false,
+            msg: "no perms"
+        });
+    }
     
     if (checkEmail.length !== 0)
     {
@@ -47,6 +60,13 @@ edituser.post("/edituser", async (req,res) =>{
 
             let b_nombre = userData.userData.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
             let b_apellido = userData.userData.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            
+            if (userData.userData.rol == "*" && user.rol != "*"){
+                return res.status(200).json({
+                    status: false,
+                    msg: "cant give that rol"
+                });
+            }
 
             const datos = {
                 name: userData.userData.name,

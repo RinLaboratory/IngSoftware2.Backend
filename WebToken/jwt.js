@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 require('dotenv').config()
 
 const JsonWebTokenSign = ( uuid, name ) =>{
-
     return new Promise((resolve, reject) => {
         const payload = { uuid, name };
         //validar el inicio de sesion con la clave almacenada en .env
