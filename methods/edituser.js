@@ -67,6 +67,12 @@ edituser.post("/edituser", async (req,res) =>{
                     msg: "cant give that rol"
                 });
             }
+            if (user.rol == "*" && userData.userData.rol != "*"){
+                return res.status(200).json({
+                    status: false,
+                    msg: "cant give that rol"
+                });
+            }
 
             const datos = {
                 name: userData.userData.name,

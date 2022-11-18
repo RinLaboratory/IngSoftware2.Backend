@@ -17,19 +17,23 @@ getadjacentdocuments.post("/getadjacentdocuments", async (req,res) =>{
     let Data_confirmacion = ""
     let Data_matrimonio = ""
     let Data_parents = ""
-
-    if(data.Bautismo.b_id != ""){
-        Data_bautismo = await bautismo.findById(data.Bautismo.b_id);
+    if(!data.export){
+        if(data.Bautismo.b_id != ""){
+            Data_bautismo = await bautismo.findById(data.Bautismo.b_id);
+        }
+        if(data.Confirmacion.c_id != ""){
+            Data_confirmacion = await confirmacion.findById(data.Confirmacion.c_id);
+        }
+        if(data.Matrimonio.m_id != ""){
+            Data_matrimonio = await matrimonio.findById(data.Matrimonio.m_id);
+        }
+        if(data.parent_Data.p_id != ""){
+            Data_parents = await parents.findById(data.parent_Data.p_id);
+        }
+    } else {
+        return res.status(200).json();
     }
-    if(data.Confirmacion.c_id != ""){
-        Data_confirmacion = await confirmacion.findById(data.Confirmacion.c_id);
-    }
-    if(data.Matrimonio.m_id != ""){
-        Data_matrimonio = await matrimonio.findById(data.Matrimonio.m_id);
-    }
-    if(data.parent_Data.p_id != ""){
-        Data_parents = await parents.findById(data.parent_Data.p_id);
-    }
+    
 
     return res.status(200).json({
         Bautismo: Data_bautismo,
