@@ -9,9 +9,9 @@ const getdocument = new express.Router();
 const jwt = require('jsonwebtoken');
 const usuarios = require("../db/usuarios")
 
-getdocument.post("/getdocument", async (req,res) =>{
-    const data = req.body
-    const texto = req.body.search.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+getdocument.get("/getdocument", async (req,res) =>{
+    const data = req.query
+    const texto = req.query.search.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 
     let nameRegex = new RegExp(texto);
     var documents = "";
@@ -44,7 +44,7 @@ getdocument.post("/getdocument", async (req,res) =>{
             documents = await documentos.find({n_id: nameRegex});
         }
         if (data.selectValue == "default") {
-            documents = await documentos.find({});
+            documents = await documentos.find();
         }
         if (data.selectValue == "exportPackage" && texto !== "undefined") {
             documents = await documentos.find({_id: texto});
