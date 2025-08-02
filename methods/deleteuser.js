@@ -8,7 +8,7 @@ const getUser = new express.Router();
 
 const jwt = require('jsonwebtoken');
 
-getUser.post("/deleteuser", async (req,res) =>{
+getUser.delete("/deleteuser", async (req,res) =>{
     const data = req.body;
     const token = req.header('x-token');
     const {uuid} = jwt.verify(
