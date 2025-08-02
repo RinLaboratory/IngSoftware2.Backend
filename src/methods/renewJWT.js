@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { generarJWT } = require('../helpers/jwt');
+const { generarJWT } = require('../utils/helpers/jwt');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const express = require("express");
 
