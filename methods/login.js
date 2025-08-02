@@ -51,10 +51,10 @@ login.post("/auth", async (req,res) =>{
                     })
 
                 } catch ( err ) {
-                    return res.status(500).json({
-                        status: false,
-                        msg: "Web Server Error"
-                    });
+                    // return res.status(500).json({
+                    //     status: false,
+                    //     msg: "Web Server Error"
+                    // });
                 }
             } else {
                 // contraseña incorrecta
