@@ -17,12 +17,12 @@ const notFound = (res) => {
     });
 }
 
-edituser.post("/edituser", async (req,res) =>{
+edituser.put("/edituser", async (req,res) =>{
     const userData = req.body;
     const saltRounds = parseInt(process.env.HOW_MANY_HASHES);
 
     // el correo no puede tener espacios entremedio, así que se elimininan
-    const email = userData.userData.email;
+    const email = userData.email;
     var checkEmail = email.split(' ').join('');
     var users = "";
 
@@ -48,26 +48,26 @@ edituser.post("/edituser", async (req,res) =>{
             notFound(res);
         }
 
-        bcrypt.hash(userData.password.password, saltRounds, async function(err, hash) {
+        bcrypt.hash(userData.password, saltRounds, async function(err, hash) {
             
-            const pass = await password.findById(userData.userData.password_id)
+            const pass = await password.findById(userData.password_id)
 
-            if (userData.password.password.length !== 0){
+            if (userData.password && userData.password.length !== 0){
                 await pass.updateOne({password: hash})
             }
 
-            const user = await usuarios.findById(userData.userData._id);
+            const user = await usuarios.findById(userData._id);
 
-            let b_nombre = userData.userData.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            let b_apellido = userData.userData.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            let b_nombre = userData.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            let b_apellido = userData.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
             
-            if (userData.userData.rol == "*" && user.rol != "*"){
+            if (userData.rol == "*" && user.rol != "*"){
                 return res.status(200).json({
                     status: false,
                     msg: "cant give that rol"
                 });
             }
-            if (user.rol == "*" && userData.userData.rol != "*"){
+            if (user.rol == "*" && userData.rol != "*"){
                 return res.status(200).json({
                     status: false,
                     msg: "cant give that rol"
@@ -75,15 +75,15 @@ edituser.post("/edituser", async (req,res) =>{
             }
 
             const datos = {
-                name: userData.userData.name,
+                name: userData.name,
                 nameE: b_nombre,
-                lastname: userData.userData.lastname,
+                lastname: userData.lastname,
                 lastnameE: b_apellido,
-                email: userData.userData.email,
-                rol: userData.userData.rol,
-                password_id: userData.userData.password_id,
-                phone: userData.userData.phone,
-                lastSeen: userData.userData.lastSeen
+                email: userData.email,
+                rol: userData.rol,
+                password_id: userData.password_id,
+                phone: userData.phone,
+                lastSeen: userData.lastSeen
             }
             
             await user.updateOne(datos)

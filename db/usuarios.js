@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     password_id:String,
     rol: String,
     phone: String,
-    lastSeen: String
+    lastSeen: Date | undefined
 })
 
 userSchema.index({name: 'text'})

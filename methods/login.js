@@ -24,43 +24,41 @@ login.post("/auth", async (req,res) =>{
     if (userData.email != ''){
 
         // buscamos los usuarios que coincidan con el correo colocado
-        const users = await usuarios.find({ email: userData.email })
+        const user = await usuarios.findOne({ email: userData.email })
 
-        if(users.length === 0) {
+        if(!user) {
             // si llega aquí es porque el usuario no está registrado o no se ha encontrado.
             incorrectPass(res);
         }
 
-        // por cada usuario con el mismo correo se navega en un elemento
-        users.forEach( async (element) => {
+        const pass = await password.findById(user.password_id);
 
-            const pass = await password.findById(element.password_id);
+        // comparación de la contraseña almacenada en la db y la entregada por el usuario (await si tiene efecto en esta funcion aunque diga que no)
+        validation = bcrypt.compare(userData.password, pass.password);
 
-            // comparación de la contraseña almacenada en la db y la entregada por el usuario (await si tiene efecto en esta funcion aunque diga que no)
-            validation = await bcrypt.compare(userData.password, pass.password);
+        if(validation) {
+            try {
+                const token = await JsonWebTokenSign(user._id.toString(), user.name);
 
-            if(validation) {
-                try {
-                    const token = await JsonWebTokenSign(element._id.toString(), element.name);
+                // console.log(token)
+                // el usuario está autenticado
+                await user.updateOne({...user.toJSON(), lastSeen: new Date()})
 
-                    // console.log(token)
-                    // el usuario está autenticado
-                    return res.status(200).json({
-                        status: validation,
-                        token: token
-                    })
+                return res.status(200).json({
+                    status: validation,
+                    token: token
+                })
 
-                } catch ( err ) {
-                    return res.status(500).json({
-                        status: false,
-                        msg: "Web Server Error"
-                    });
-                }
-            } else {
-                // contraseña incorrecta
-                incorrectPass(res);
+            } catch ( err ) {
+                // return res.status(500).json({
+                //     status: false,
+                //     msg: "Web Server Error"
+                // });
             }
-        })
+        } else {
+            // contraseña incorrecta
+            incorrectPass(res);
+        }
     } else {
         // si llega aquí es porque se recibió una petición donde el correo está vacío.
         incorrectPass(res);

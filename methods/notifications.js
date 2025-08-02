@@ -6,7 +6,7 @@ const usuarios = require("../db/usuarios")
 
 const getnotifications = new express.Router();
 
-getnotifications.post("/getnotifications", async (req,res) =>{
+getnotifications.get("/getnotifications", async (req,res) =>{
     const data = req.body
 
     let cantidad_documentos = await documentos.countDocuments()

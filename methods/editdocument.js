@@ -12,7 +12,7 @@ const editdocument = new express.Router();
 const usuarios = require("../db/usuarios")
 const jwt = require('jsonwebtoken');
 
-editdocument.post('/editdocument', async (req, res) => {
+editdocument.put('/editdocument', async (req, res) => {
     const data = req.body
     let p_parent = "" ;
     let d_bautismo = "";
@@ -33,7 +33,7 @@ editdocument.post('/editdocument', async (req, res) => {
         });
     }
 
-    const findDocument = await documentos.findById(data._id)
+    const findDocument = await documentos.findById(data.Documento._id)
 
     if (data.Documento.name.length !== 0 && data.Documento.lastname.length !== 0)
     {

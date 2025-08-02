@@ -7,8 +7,8 @@ const getUser = new express.Router();
 
 const jwt = require('jsonwebtoken');
 
-getUser.post("/getusers", async (req,res) =>{
-    const data = req.body;
+getUser.get("/getusers", async (req,res) =>{
+    const data = req.query;
     const texto = data.buscar.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     let nameRegex = new RegExp(texto);
     var users = "";

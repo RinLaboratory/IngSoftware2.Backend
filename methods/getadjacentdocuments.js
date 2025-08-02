@@ -13,8 +13,8 @@ const jwt = require('jsonwebtoken');
 
 const getadjacentdocuments = new express.Router();
 
-getadjacentdocuments.post("/getadjacentdocuments", async (req,res) =>{
-    const data = req.body
+getadjacentdocuments.get("/getadjacentdocuments", async (req,res) =>{
+    const data = req.query
 
     const token = req.header('x-token');
     const {uuid} = jwt.verify(
@@ -30,22 +30,22 @@ getadjacentdocuments.post("/getadjacentdocuments", async (req,res) =>{
         });
     }
 
-    let Data_bautismo = ""
-    let Data_confirmacion = ""
-    let Data_matrimonio = ""
-    let Data_parents = ""
+    let Data_bautismo = undefined
+    let Data_confirmacion = undefined
+    let Data_matrimonio = undefined
+    let Data_parents = undefined
 
-    if(data.Bautismo.b_id != ""){
-        Data_bautismo = await bautismo.findById(data.Bautismo.b_id);
+    if(data.b_id != ""){
+        Data_bautismo = await bautismo.findById(data.b_id);
     }
-    if(data.Confirmacion.c_id != ""){
-        Data_confirmacion = await confirmacion.findById(data.Confirmacion.c_id);
+    if(data.c_id != ""){
+        Data_confirmacion = await confirmacion.findById(data.c_id);
     }
-    if(data.Matrimonio.m_id != ""){
-        Data_matrimonio = await matrimonio.findById(data.Matrimonio.m_id);
+    if(data.m_id != ""){
+        Data_matrimonio = await matrimonio.findById(data.m_id);
     }
-    if(data.parent_Data.p_id != ""){
-        Data_parents = await parents.findById(data.parent_Data.p_id);
+    if(data.p_id != ""){
+        Data_parents = await parents.findById(data.p_id);
     }
     
 
