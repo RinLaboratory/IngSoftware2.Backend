@@ -29,11 +29,11 @@ register.post("/register", async (req,res) =>{
 
 
     // el correo no puede tener espacios entremedio, así que se elimininan
-    const email = userData.userData.email;
+    const email = userData.email;
     var checkEmail = email.split(' ').join('');
     var users = "";
     
-    if (checkEmail.length !== 0 && userData.password.password.length != 0)
+    if (checkEmail.length !== 0 && userData.password.length != 0)
     {
         users = await usuarios.find({email: checkEmail});
         if (users.length > 0) {
@@ -42,15 +42,15 @@ register.post("/register", async (req,res) =>{
                 msg: "email already exists"
             });
         } else {
-            bcrypt.hash(userData.password.password, saltRounds, async function(err, hash) {
+            bcrypt.hash(userData.password, saltRounds, async function(err, hash) {
                 
                 let pass = new password({password: hash})
                 await pass.save();
 
-                let b_nombre = userData.userData.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-                let b_apellido = userData.userData.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                let b_nombre = userData.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                let b_apellido = userData.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 
-                if (userData.userData.rol == "*"){
+                if (userData.rol == "*"){
                     return res.status(200).json({
                         status: false,
                         msg: "cant give that rol"
@@ -58,14 +58,15 @@ register.post("/register", async (req,res) =>{
                 }
 
                 let hashedUserPassword = {
-                    name: userData.userData.name,
+                    name: userData.name,
                     nameE: b_nombre,
-                    lastname: userData.userData.lastname,
+                    lastname: userData.lastname,
                     lastnameE: b_apellido,
-                    rol: userData.userData.rol,
-                    phone: userData.userData.phone,
+                    rol: userData.rol,
+                    phone: userData.phone,
                     email: checkEmail,
-                    password_id: pass._id.toString()
+                    password_id: pass._id.toString(),
+                    lastSeen: undefined
                 }
 
                 let user = new usuarios(hashedUserPassword);
