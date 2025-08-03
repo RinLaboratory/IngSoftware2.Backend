@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    /** Base Options */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "jsx": "react",
+
+    /** Keep TSC performant in monorepos */
+    "incremental": true,
+    "disableSourceOfProjectReferenceRedirect": true,
+    "tsBuildInfoFile": "${configDir}/.cache/tsbuildinfo.json",
+
+    /** Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "checkJs": true,
+
+    /** Transpile using Bundler (not tsc) */
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "module": "esnext",
+    "outDir": "./dist",
+    "typeRoots": ["./node_modules/@types", "./src/types"]
+    // "moduleResolution": "Node",
+    // "esModuleInterop": true,
+    // "skipLibCheck": true,
+    // "strictNullChecks": true,
+  },
+  "include": ["src", "*.ts", "*.mjs"],
+  "exclude": ["node_modules", "build", "dist"]
+}
