@@ -61,13 +61,13 @@ export async function getDocuments(
               p_id: document.parent_Data?.p_id?.toString() ?? "",
             },
             Bautismo: {
-              p_id: document.Bautismo?.b_id?.toString() ?? "",
+              b_id: document.Bautismo?.b_id?.toString() ?? "",
             },
             Confirmacion: {
-              p_id: document.Confirmacion?.c_id?.toString() ?? "",
+              c_id: document.Confirmacion?.c_id?.toString() ?? "",
             },
             Matrimonio: {
-              p_id: document.Matrimonio?.m_id?.toString() ?? "",
+              m_id: document.Matrimonio?.m_id?.toString() ?? "",
             },
           }),
         ),
@@ -97,13 +97,13 @@ export async function getDocument(
           p_id: document.parent_Data?.p_id?.toString() ?? "",
         },
         Bautismo: {
-          p_id: document.Bautismo?.b_id?.toString() ?? "",
+          b_id: document.Bautismo?.b_id?.toString() ?? "",
         },
         Confirmacion: {
-          p_id: document.Confirmacion?.c_id?.toString() ?? "",
+          c_id: document.Confirmacion?.c_id?.toString() ?? "",
         },
         Matrimonio: {
-          p_id: document.Matrimonio?.m_id?.toString() ?? "",
+          m_id: document.Matrimonio?.m_id?.toString() ?? "",
         },
       }),
     };
@@ -128,11 +128,14 @@ export async function getAdjacentDocuments(input: unknown): Promise<
   let Data_matrimonio: TMarriage | undefined = undefined;
   let Data_parents: TParent | undefined = undefined;
 
-  Data_bautismo = await baptismModel
-    .findById(b_id)
-    .then((value) =>
-      BaptismSchema.parse({ ...value?.toJSON(), _id: value?._id.toString() }),
-    );
+  Data_bautismo = await baptismModel.findById(b_id).then((value) =>
+    value
+      ? BaptismSchema.parse({
+          ...value.toJSON(),
+          _id: value._id.toString(),
+        })
+      : undefined,
+  );
   if (!Data_bautismo) return { success: false, msg: "document does not exist" };
 
   if (c_id && c_id !== "") {
@@ -228,14 +231,12 @@ export async function addDocument(input: unknown): Promise<
     }
     if (newDocument.A_matrimonio) {
       const d_matrimonio = new marriageModel(newDocument.Matrimonio);
-      d_matrimonio_data = await d_matrimonio
-        .save()
-        .then((value) =>
-          MarriageSchema.parse({
-            ...value.toJSON(),
-            _id: value._id.toString(),
-          }),
-        );
+      d_matrimonio_data = await d_matrimonio.save().then((value) =>
+        MarriageSchema.parse({
+          ...value.toJSON(),
+          _id: value._id.toString(),
+        }),
+      );
     }
 
     const datos = {
@@ -299,14 +300,12 @@ export async function editDocument(input: unknown): Promise<
     } else {
       if (updatedDocument.A_parent) {
         const p_parent = new parentsModel(updatedDocument.parent_Data);
-        p_parent_data = await p_parent
-          .save()
-          .then((value) =>
-            ParentSchema.parse({
-              ...value.toJSON(),
-              _id: value._id.toString(),
-            }),
-          );
+        p_parent_data = await p_parent.save().then((value) =>
+          ParentSchema.parse({
+            ...value.toJSON(),
+            _id: value._id.toString(),
+          }),
+        );
       }
     }
     if (updatedDocument.Documento.Bautismo.b_id !== "") {
