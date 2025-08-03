@@ -9,8 +9,11 @@ const documentsRouter = Router();
 documentsRouter.use(checkUserMiddleware());
 
 documentsRouter.get("/", documentsController.getDocuments);
-documentsRouter.get("/:id", documentsController.getDocument);
 documentsRouter.get("/adjacent", documentsController.getAdjacentDocuments);
+
+// Wildcards always go last
+documentsRouter.get("/:id", documentsController.getDocument);
+
 documentsRouter.post("/", documentsController.addDocument);
 documentsRouter.put("/", documentsController.editDocument);
 
