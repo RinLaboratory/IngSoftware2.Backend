@@ -54,19 +54,26 @@ export const GetDocumentsSchema = z.object({
 export type TGetDocuments = z.infer<typeof GetDocumentsSchema>;
 
 export const GetAdjacentDocumentsSchema = z.object({
-  b_id: z.string().regex(/^[0-9a-fA-F]{24}$/),
+  b_id: z
+    .string()
+    .regex(/^[0-9a-fA-F]{24}$/)
+    .optional()
+    .or(z.enum([""])),
   c_id: z
     .string()
     .regex(/^[0-9a-fA-F]{24}$/)
-    .optional(),
+    .optional()
+    .or(z.enum([""])),
   m_id: z
     .string()
     .regex(/^[0-9a-fA-F]{24}$/)
-    .optional(),
+    .optional()
+    .or(z.enum([""])),
   p_id: z
     .string()
     .regex(/^[0-9a-fA-F]{24}$/)
-    .optional(),
+    .optional()
+    .or(z.enum([""])),
 });
 
 // WHAT THE ACTUAL FUCK IS THIS
