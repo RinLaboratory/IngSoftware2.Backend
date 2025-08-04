@@ -11,7 +11,7 @@ You will require the next dependencies to run this project:
 - MongoDB
 - Python v3.x.x
 
-### Installing yarn
+### Installing pnpm
 
 ```bash
 npm install --global pnpm@latest-10
