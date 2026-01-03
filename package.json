@@ -27,28 +27,28 @@
     "helmet": "^8.1.0",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^8.20.2",
-    "remeda": "^2.32.0",
+    "mongoose": "^8.21.0",
+    "remeda": "^2.33.1",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/compat": "^1.4.1",
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.2",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^4.17.25",
     "@types/hpp": "^0.2.7",
     "@types/jsonwebtoken": "9.0.10",
-    "@types/node": "^22.19.1",
+    "@types/node": "^22.19.3",
     "dotenv-cli": "^8.0.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "prettier": "^3.7.4",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.1"
+    "typescript-eslint": "^8.51.0"
   },
   "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }
