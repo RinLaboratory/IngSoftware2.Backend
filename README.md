@@ -33,10 +33,11 @@ To run the development server, you will use the following command:
 pnpm dev
 ```
 
-Then, open [http://localhost:3000](http://localhost:3000) with your browser to see the development server.
+This server will bind to port `8000`, here is an example: [http://localhost:8000](http://localhost:8000) the Frontend server will start to query this development server.
 
 ## Getting the production server running
 
+### server (bash)
 To compile the development server, you will use the following command:
 
 ```bash
@@ -49,7 +50,31 @@ Once finished compiling, you will use the following command to run the productio
 pnpm start
 ```
 
-Then, open [http://localhost:3000](http://localhost:3000) with your browser to see the production server.
+### server (Docker)
+
+#### Local build
+
+To locally compile the development server, you will use the following command:
+
+```bash
+docker build -t iglesia-back .
+```
+
+#### Run server
+To pass the environment variables to the docker command, you must insert them using the following pattern:
+
+```bash
+-e ENV_VAR_KEY=value
+-e ANOTHER_ENV_VAR_KEY=value
+```
+
+To run production server you will use the following command, replacing the environment variables values with your config:
+
+```bash
+docker run --rm -p 8000:8000 -e NODE_ENV=production -e SECRET_JWT_SEED=super-long-and-secret-jwt-shared-with-backend -e SECRET_JWT_SEED_EXPIRATION_TIME=5m -e SERVER_PORT=8000 -e DB_ADDRESS=mongodb://localhost:27017/COLECCIÓN -e HOW_MANY_HASHES=10 -e ALLOWED_CORS_ORIGINS=http://localhost:3000,http://localhost:5001 -d iglesia-back:latest
+```
+
+This server will bind to port `8000`, here is an example: [http://localhost:8000](http://localhost:8000) the Frontend server will start to query this production server.
 Keep in mind that everytime you update a file here, you must re-compile the production server to apply changes
 
 ## Initializing and populating the DB
